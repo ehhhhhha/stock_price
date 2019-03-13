@@ -17,29 +17,27 @@
 <div align="center"> 
 
 	<div class="col-sm-4">
-		<form>
-
+		<form action="/main/search/" method="post">
+		{% csrf_token %}
 		  <div class="form-group row" >
 		    <label for="stock_symbol" class="col-sm-3 col-form-label">Code</label>
 		    <div class="col-sm-6">
-		    	<input type="text" class="form-control" id="stock_symbol" placeholder="code">
+		    	<input type="text" class="form-control" name="stock_symbol" placeholder="code">
 		    </div>
 		    			    
 		  </div>
 
-
-
 		  <div class="form-group row" >
 		    <label for="start_date" class="col-sm-3 col-form-label">Start Date</label>
 		     <div class="col-sm-6">
-		    	<input type="text" class="form-control" id="start_date" placeholder="DD/MM/YY">
+		    	<input type="text" class="form-control" name="start_date" placeholder="DD/MM/YY">
 		    </div>
 		  </div>
 
 		  <div class="form-group row" >
 		    <label for="end_date" class="col-sm-3 col-form-label">End Date</label>
 		    <div class="col-sm-6">
-		    	<input type="text" class="form-control" id="end_date" placeholder="DD/MM/YY">
+		    	<input type="text" class="form-control" name="end_date" placeholder="DD/MM/YY">
 		    </div>
 		  </div>
 		  <button type="submit" class="btn btn-primary">Check</button>
@@ -47,17 +45,28 @@
 	</div>
 
 
-	<div align="center" style="height: 360px; width: 640px; padding-bottom: 50px; padding-top: 50px;" >
+	<div align="center" style="height: 400px; width: 700px; padding-bottom: 35px; padding-top: 35px;" >
 		<canvas id="myChart" align="center" style="margin: 0 auto" ></canvas>
 		<script>
+		{% if labels %}
+			{% autoescape off %}
+			point_labels = {{ labels }};
+			point_data = {{ prices }};
+			{% endautoescape %}
+		{% else %}
+		    point_labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
+			point_data = [12, 19, 3, 5, 2, 3,5,6,6,6,6,6,6,6,2];
+		{% endif %}	
+
+
 		var ctx = document.getElementById("myChart").getContext('2d');
 		var myChart = new Chart(ctx, {
 		    type: 'line',
 		    data: {
-		        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+
+		        labels: point_labels,
 		        datasets: [{
-		            label: '# of Votes',
-		            data: [12, 19, 3, 5, 2, 3,5,6,6,6,6,6,6,6,2],
+		            data: point_data,
 		            backgroundColor: [
 		                'rgba(0, 0, 0, 0)',
 		            ],
@@ -71,9 +80,17 @@
 		        scales: {
 		            yAxes: [{
 		                ticks: {
-		                    beginAtZero:true
+		                    beginAtZero:false
 		                }
 		            }]
+		        },
+		        elements: {
+		            line: {
+		                tension: 0, // disables bezier curves
+		            },
+		            point:{
+                        radius: 0
+                    }
 		        },
 		        maintainAspectRatio: false,
 		    }

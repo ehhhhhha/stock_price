@@ -1,8 +1,8 @@
 from django.shortcuts import render
-
+from datetime import datetime
 from django.http import HttpResponse
 from django.template import loader
-from .models import Stock
+from .models import Stock 
 
 def index(request):
 	latest_question_list = Stock.objects.order_by('date')[:10]
@@ -12,12 +12,34 @@ def index(request):
 	}
 	return HttpResponse(template.render(context, request))
 
-# def detail(request, question_id):
-# 	return HttpResponse("You're looking at question %s." % question_id)
+def search(request):
+	template = loader.get_template('main/index.html')
 
-# def results(request, question_id):
-# 	response = "You're looking at the results of question %s."
-# 	return HttpResponse(response % question_id)
+	context = {
+		
+	}
+	if request.method != 'POST':
+		return HttpResponse(template.render(context, request))
 
-# def vote(request, question_id):
-# 	return HttpResponse("You're voting on question %s." % question_id)
+
+	symbol = request.POST.get("stock_symbol")
+	start = datetime.strptime(request.POST.get("start_date"), "%d/%m/%Y").date()
+	end = datetime.strptime(request.POST.get("end_date"), "%d/%m/%Y").date()
+	print(symbol, start, end)
+
+	latest_point_list = Stock.objects.order_by('date').filter(stock_symbol=symbol).exclude(date__lt=start).exclude(date__gt=end)
+	labels = [None] * len(latest_point_list)
+	prices = [None] * len(latest_point_list)
+	count = 0
+
+	
+	for point in latest_point_list:
+		labels[count] = point.date.strftime("%m/%d/%Y")
+		prices[count] = int(point.close_price)
+		count += 1
+
+	context = {
+		'labels' : labels,
+		'prices' : prices
+	}
+	return HttpResponse(template.render(context, request))
