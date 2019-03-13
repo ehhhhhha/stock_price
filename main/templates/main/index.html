@@ -1,9 +1,103 @@
-{% if latest_question_list %}
-    <ul>
-    {% for stock in latest_question_list %}
-        <li>{{ stock.stock_symbol }}.{{ stock.close_price }}. {{ stock.date }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+<!DOCTYPE html>
+<head>
+  {% load static %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <title>Site</title>
+</head>
+<body>
+
+<div align="center" style="padding-bottom: 100px; padding-top: 50px;">
+	<h1 class="display-2"> Stock Search</h1>
+	<small id="help" class="form-text text-muted ">Currently only support APPL, CSCO, INTC, and MSFT.</small>	
+</div>
+
+<div align="center"> 
+
+	<div class="col-sm-4">
+		<form>
+
+		  <div class="form-group row" >
+		    <label for="stock_symbol" class="col-sm-3 col-form-label">Code</label>
+		    <div class="col-sm-6">
+		    	<input type="text" class="form-control" id="stock_symbol" placeholder="code">
+		    </div>
+		    			    
+		  </div>
+
+
+
+		  <div class="form-group row" >
+		    <label for="start_date" class="col-sm-3 col-form-label">Start Date</label>
+		     <div class="col-sm-6">
+		    	<input type="text" class="form-control" id="start_date" placeholder="DD/MM/YY">
+		    </div>
+		  </div>
+
+		  <div class="form-group row" >
+		    <label for="end_date" class="col-sm-3 col-form-label">End Date</label>
+		    <div class="col-sm-6">
+		    	<input type="text" class="form-control" id="end_date" placeholder="DD/MM/YY">
+		    </div>
+		  </div>
+		  <button type="submit" class="btn btn-primary">Check</button>
+		</form>		
+	</div>
+
+
+	<div align="center" style="height: 360px; width: 640px; padding-bottom: 50px; padding-top: 50px;" >
+		<canvas id="myChart" align="center" style="margin: 0 auto" ></canvas>
+		<script>
+		var ctx = document.getElementById("myChart").getContext('2d');
+		var myChart = new Chart(ctx, {
+		    type: 'line',
+		    data: {
+		        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+		        datasets: [{
+		            label: '# of Votes',
+		            data: [12, 19, 3, 5, 2, 3,5,6,6,6,6,6,6,6,2],
+		            backgroundColor: [
+		                'rgba(0, 0, 0, 0)',
+		            ],
+		            borderColor: [
+		                'rgba(0, 102, 204,1)'
+		            ],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        },
+		        maintainAspectRatio: false,
+		    }
+		});
+		</script>
+<!-- 		{% if latest_question_list %}
+	    <ul>
+	    {% for stock in latest_question_list %}
+	        <li>{{ stock.stock_symbol }}.{{ stock.close_price }}. {{ stock.date }}</li>
+	    {% endfor %}
+	    </ul>
+	{% else %}
+	    <p>No polls are available.</p>
+	{% endif %}
+ -->
+	</div>
+</div>
+
+
+</body>
+</html>
+
+
+
+
+
+
