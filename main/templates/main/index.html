@@ -9,20 +9,27 @@
 </head>
 <body>
 
-<div align="center" style="padding-bottom: 100px; padding-top: 50px;">
+
+
+<div align="center" style="padding-bottom: 30px; padding-top: 30px;">
 	<h1 class="display-2"> Stock Search</h1>
 	<small id="help" class="form-text text-muted ">Currently only support APPL, CSCO, INTC, and MSFT.</small>	
+</div>
+<div align="center" style="padding-bottom: 30px; padding-top: 10px;">
+	{% if error %}
+	<small id="help" class="form-text text-danger"> Input invalid. Please check your input again.</small>	
+	{% endif %}
 </div>
 
 <div align="center"> 
 
 	<div class="col-sm-4">
-		<form action="/main/search/" method="post">
+		<form action="" method="post">
 		{% csrf_token %}
 		  <div class="form-group row" >
 		    <label for="stock_symbol" class="col-sm-3 col-form-label">Code</label>
 		    <div class="col-sm-6">
-		    	<input type="text" class="form-control" name="stock_symbol" placeholder="code">
+		    	<input type="text" class="form-control" name="stock_symbol" placeholder="code" required="required" value={{ code_name }}>
 		    </div>
 		    			    
 		  </div>
@@ -30,14 +37,14 @@
 		  <div class="form-group row" >
 		    <label for="start_date" class="col-sm-3 col-form-label">Start Date</label>
 		     <div class="col-sm-6">
-		    	<input type="text" class="form-control" name="start_date" placeholder="DD/MM/YY">
+		    	<input type="text" class="form-control" name="start_date" placeholder="DD/MM/YY" required="required" value={{start_date}}>
 		    </div>
 		  </div>
 
 		  <div class="form-group row" >
 		    <label for="end_date" class="col-sm-3 col-form-label">End Date</label>
 		    <div class="col-sm-6">
-		    	<input type="text" class="form-control" name="end_date" placeholder="DD/MM/YY">
+		    	<input type="text" class="form-control" name="end_date" placeholder="DD/MM/YY" required="required" value={{end_date}}>
 		    </div>
 		  </div>
 		  <button type="submit" class="btn btn-primary">Check</button>
@@ -54,8 +61,8 @@
 			point_data = {{ prices }};
 			{% endautoescape %}
 		{% else %}
-		    point_labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Blue", "Yellow", "Green", "Purple", "Orange", "Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
-			point_data = [12, 19, 3, 5, 2, 3,5,6,6,6,6,6,6,6,2];
+		    point_labels = [];
+			point_data = [12];
 		{% endif %}	
 
 
@@ -86,7 +93,7 @@
 		        },
 		        elements: {
 		            line: {
-		                tension: 0, // disables bezier curves
+		                tension: 1, // disables bezier curves
 		            },
 		            point:{
                         radius: 0
