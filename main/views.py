@@ -3,14 +3,7 @@ from datetime import datetime
 from django.http import HttpResponse
 from django.template import loader
 from .models import Stock 
-
-# def index(request):
-# 	latest_question_list = Stock.objects.order_by('date')[:10]
-# 	template = loader.get_template('main/index.html')
-# 	context = {
-# 		'latest_question_list': latest_question_list,
-# 	}
-# 	return HttpResponse(template.render(context, request))
+import json
 
 def search(request):
 	template = loader.get_template('main/index.html')
@@ -48,12 +41,34 @@ def search(request):
 		prices[count] = int(point.close_price)
 		count += 1
 
+	length = len(prices)
+	min_date_index = 0
+	temp_min_date_index = 0 
+	max_profit = 0
+	max_profit_index = 0
+	for i in range(length):
+		if prices[temp_min_date_index] > prices[i]:
+			temp_min_date_index = i
+		if prices[i] - prices[temp_min_date_index] > max_profit:
+			max_profit = prices[i] - prices[temp_min_date_index]
+			max_profit_index = i
+			min_date_index = temp_min_date_index
+
+	max_profit_point = [None] * length
+	for i in range(length):
+		if i >= min_date_index and i <= max_profit_index:
+			max_profit_point[i] = prices[i]
+
+	print(prices[min_date_index], prices[max_profit_index])
+	max_profit_point = json.dumps(max_profit_point)
+
 	context = {
 		'code_name' : symbol,
 		'start_date': request.POST.get("start_date"),
 		'end_date': request.POST.get("end_date"),
 		'labels' : labels,
-		'prices' : prices
+		'prices' : prices,
+		'max_profit_point' : max_profit_point
 	}
 	return HttpResponse(template.render(context, request))
 

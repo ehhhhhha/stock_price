@@ -52,17 +52,19 @@
 	</div>
 
 
-	<div align="center" style="height: 400px; width: 700px; padding-bottom: 35px; padding-top: 35px;" >
+	<div align="center" style="height: 500px; width: 900px; padding-bottom: 35px; padding-top: 35px;" >
 		<canvas id="myChart" align="center" style="margin: 0 auto" ></canvas>
 		<script>
 		{% if labels %}
 			{% autoescape off %}
 			point_labels = {{ labels }};
 			point_data = {{ prices }};
+			max_profit_point = {{ max_profit_point }};
 			{% endautoescape %}
 		{% else %}
 		    point_labels = [];
 			point_data = [12];
+			max_profit_point = []];
 		{% endif %}	
 
 
@@ -70,18 +72,22 @@
 		var myChart = new Chart(ctx, {
 		    type: 'line',
 		    data: {
-
-		        labels: point_labels,
-		        datasets: [{
+		    	labels: point_labels,
+		        datasets: [
+		        {
+		            label: "max_profit",
+		            borderColor: 'rgb(244, 65, 65)',
+		            backgroundColor: 'rgb(244, 65, 65)',
+		            fill: false,
+		            data: max_profit_point
+		        },{
+		        	label: 'close_price',
 		            data: point_data,
-		            backgroundColor: [
-		                'rgba(0, 0, 0, 0)',
-		            ],
-		            borderColor: [
-		                'rgba(0, 102, 204,1)'
-		            ],
-		            borderWidth: 1
-		        }]
+		            backgroundColor: 'rgb(66, 194, 244)',
+		            borderColor: 'rgb(66, 194, 244)',
+		            fill: false
+
+		        	}]
 		    },
 		    options: {
 		        scales: {
@@ -93,7 +99,7 @@
 		        },
 		        elements: {
 		            line: {
-		                tension: 1, // disables bezier curves
+		                tension: 0, // disables bezier curves
 		            },
 		            point:{
                         radius: 0
