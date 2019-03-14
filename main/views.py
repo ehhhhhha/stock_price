@@ -90,6 +90,6 @@ def search(request):
 
 # check code symbol and date order
 def isValid(symbol, start_date, end_date):
-	supported_codes = ["APPL", "CSCO", "INTC", "MSFT"]
+	supported_codes = ["AAPL", "CSCO", "INTC", "MSFT"]
 	return symbol in supported_codes and start_date < end_date
 
