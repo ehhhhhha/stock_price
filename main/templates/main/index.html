@@ -15,9 +15,11 @@
 	<h1 class="display-2"> Stock Search</h1>
 	<small id="help" class="form-text text-muted ">Currently only support APPL, CSCO, INTC, and MSFT.</small>	
 </div>
-<div align="center" style="padding-bottom: 30px; padding-top: 10px;">
+<div align="center" style="padding-bottom: 30px; padding-top: 8px;">
 	{% if error %}
-	<small id="help" class="form-text text-danger"> Input invalid. Please check your input again.</small>	
+		<small id="help" class="form-text text-danger"> Input invalid. Please check your input again.</small>
+	{% else %}
+		<medium id="info" class="form-text text-success"> The max profit is {{max_profit}}, buy on {{max_profit_start}} and sell on {{ max_profit_end}}.</medium>
 	{% endif %}
 </div>
 
