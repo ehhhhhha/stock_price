@@ -20,7 +20,7 @@
 		<small id="help" class="form-text text-danger"> Input invalid. Please check your input again.</small>
 	{% else %}
 		{% if max_profit %}
-		<medium id="info" class="form-text text-success"> The max profit is {{max_profit}} Dollar, buy on {{max_profit_start}} and sell on {{ max_profit_end}}.</medium>
+		<medium id="info" class="form-text text-success"> The max profit is {{max_profit}} Dollar, buying on {{max_profit_start}} and selling on {{ max_profit_end}}.</medium>
 		{% endif %}
 	{% endif %}
 </div>
@@ -113,16 +113,6 @@
 		    }
 		});
 		</script>
-<!-- 		{% if latest_question_list %}
-	    <ul>
-	    {% for stock in latest_question_list %}
-	        <li>{{ stock.stock_symbol }}.{{ stock.close_price }}. {{ stock.date }}</li>
-	    {% endfor %}
-	    </ul>
-	{% else %}
-	    <p>No polls are available.</p>
-	{% endif %}
- -->
 	</div>
 </div>
 

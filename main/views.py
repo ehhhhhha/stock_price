@@ -44,7 +44,7 @@ def search(request):
 
 	# initialise label list and price data list for the chart 
 	for point in latest_point_list:
-		labels[count] = point.date.strftime("%m/%d/%Y")
+		labels[count] = point.date.strftime("%d/%m/%Y")
 		prices[count] = int(point.close_price)
 		count += 1
 
